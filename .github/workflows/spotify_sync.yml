@@ -38,7 +38,7 @@ jobs:
       - name: Save updated Spotify cache back to Secrets
         if: success()
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.GH_PAT }} 
         run: |
           # Update the secret with the newly refreshed .cache file
           gh secret set SPOTIPY_CACHE < .cache
