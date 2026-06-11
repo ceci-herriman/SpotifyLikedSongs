@@ -32,8 +32,19 @@ jobs:
           SPOTIPY_REDIRECT_URI: ${{ secrets.SPOTIPY_REDIRECT_URI }}
         run: |
           # Recreate the cache from secrets
-          echo '${{ secrets.SPOTIPY_CACHE }}' > .cache
+          cat << 'EOF' > .cache
+          ${{ secrets.SPOTIPY_CACHE }}
+          EOF
+
+          # DEBUG: See what GitHub actually pulled from secrets before running
+          echo "Cache size before running script:"
+          wc -c .cache
+          
           python run.py
+          
+          # DEBUG: See if the file actually changed/grew after the script ran
+          echo "Cache size after running script:"
+          wc -c .cache
 
       - name: Save updated Spotify cache back to Secrets
         if: success()
@@ -41,4 +52,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }} 
         run: |
           # Update the secret with the newly refreshed .cache file
-          gh secret set SPOTIPY_CACHE < .cache
+          cat .cache | gh secret set SPOTIPY_CACHE
