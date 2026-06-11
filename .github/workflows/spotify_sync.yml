@@ -35,17 +35,9 @@ jobs:
           cat << 'EOF' > .cache
           ${{ secrets.SPOTIPY_CACHE }}
           EOF
-
-          # DEBUG: See what GitHub actually pulled from secrets before running
-          echo "Cache size before running script:"
-          wc -c .cache
           
           python run.py
           
-          # DEBUG: See if the file actually changed/grew after the script ran
-          echo "Cache size after running script:"
-          wc -c .cache
-
       - name: Save updated Spotify cache back to Secrets
         if: success()
         env:
