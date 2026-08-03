@@ -1,9 +1,9 @@
 import spotipy
 # import os
 from spotipy.oauth2 import SpotifyOAuth
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 scope = "user-library-read playlist-modify-public playlist-modify-private"
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
